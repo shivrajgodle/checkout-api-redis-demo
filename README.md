@@ -1,14 +1,10 @@
-# Checkout Demo — Java Concurrency & Caching Interview Prep Project
+# Checkout Demo — Concurrent, Cached Order Checkout Service
 
-A small, production-oriented Spring Boot service that demonstrates concepts that
-show up constantly in senior Java backend interviews but rarely appear naturally
-in a basic CRUD app: **`ConcurrentHashMap`**, **`CompletableFuture`**,
-**Virtual Threads (Java 21+)**, **Redis caching**, and **PostgreSQL** — all wired
-together around one realistic business scenario: **order checkout**.
-
-> This is a simplified version of a production checkout flow — small enough to
-> explain end-to-end in an interview, realistic enough that every concept has a
-> genuine reason to exist.
+A small, production-oriented Spring Boot service built around one realistic
+scenario — **order checkout** — that puts **`ConcurrentHashMap`**,
+**`CompletableFuture`**, **Virtual Threads (Java 21+)**, **Redis caching**, and
+**PostgreSQL** to deliberate use, each solving a specific problem in the flow
+rather than being included for its own sake.
 
 ---
 
@@ -23,9 +19,6 @@ A customer checks out a product. The service needs to:
    after another → **`CompletableFuture`**
 4. Do all of the above I/O-bound work cheaply at scale → **Virtual Threads**
 5. Persist the final order → **PostgreSQL / Spring Data JPA**
-
-Nothing here was added just to "show off" a technology — each one solves a
-specific problem in this flow, which is the story to tell in an interview.
 
 ---
 
@@ -201,13 +194,9 @@ checkout-demo/
 | Redis | `RedisConfig`, `PricingCacheService` | Cache-aside for read-heavy, rarely-changed pricing data; TTL bounds staleness |
 | PostgreSQL | `entity/`, `repository/` | Source of truth for products, inventory, and orders |
 
-For the full interview-ready 30–60 second explanations, common follow-up
-questions, and "how I'd explain this project" walkthrough for each concept,
-see the accompanying interview prep notes from our conversation.
-
 ---
 
-## Known Simplifications (good "what I'd do differently in production" talking points)
+## Known Simplifications
 
 - `ddl-auto: update` instead of Flyway/Liquibase migrations
 - No circuit breaker around Redis calls (a Redis outage should degrade gracefully via a library like Resilience4j)
