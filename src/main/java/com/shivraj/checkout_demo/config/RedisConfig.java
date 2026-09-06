@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.GenericJacksonJsonRedisSerializer;
+import org.springframework.data.redis.serializer.JacksonJsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import tools.jackson.databind.json.JsonMapper;
 
@@ -18,7 +18,11 @@ public class RedisConfig {
         RedisTemplate<String,Product> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJacksonJsonRedisSerializer(JsonMapper.builder().build()));
+
+        // Typed serializer: always reads/writes as Product.class, no reliance
+        // on embedded "@class" metadata in the JSON.
+        JacksonJsonRedisSerializer<Product> serializer = new JacksonJsonRedisSerializer<>(Product.class);
+        template.setValueSerializer(serializer);
         return template;
     }
 

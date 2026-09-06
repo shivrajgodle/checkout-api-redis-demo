@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/checkout")
@@ -55,6 +56,11 @@ public class CheckoutController {
     @GetMapping("/reservations/{productId}")
     public ResponseEntity<Integer> getInFlightReservation(@PathVariable Long productId){
         return ResponseEntity.ok(inventoryReservationService.getInFlightReservations(productId));
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<Order>> getAllOrders(){
+        return ResponseEntity.ok(orderService.findAll());
     }
 
 }

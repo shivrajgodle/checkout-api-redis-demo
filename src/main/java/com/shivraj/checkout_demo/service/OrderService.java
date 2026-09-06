@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,10 @@ public class OrderService {
         order.setStatus(status);
         order.setCreatedAt(Instant.now());
         return orderRepository.save(order);
+    }
+
+    public List<Order> findAll(){
+        return orderRepository.findAll();
     }
 
 }
