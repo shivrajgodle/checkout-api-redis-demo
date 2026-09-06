@@ -22,7 +22,8 @@ public class InventoryReservationService {
      * once in-flight reservations are accounted for.
      */
     public boolean reserve(Long productId, int quantity){
-        Inventory inventory = inventoryRepository.findByProductId(productId).orElseThrow(()-> throw new IllegalArgumentException("No inventory for product: " + productId));
+        Inventory inventory = inventoryRepository.findByProductId(productId)
+                .orElseThrow(()-> new IllegalArgumentException("No inventory for product: " + productId));
 
         int available = inventory.getAvailableQuantity();
 
